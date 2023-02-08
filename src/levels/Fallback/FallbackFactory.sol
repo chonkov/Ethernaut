@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.6.6;
 
-import "../../base/Factory.sol";
+import "../base/Factory.sol";
 import "./Fallback.sol";
 
 contract FallbackFactory is Factory {

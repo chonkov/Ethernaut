@@ -2,7 +2,7 @@
 
 pragma solidity ^0.6.0;
 
-import "../../base/Factory.sol";
+import "../base/Factory.sol";
 import "./Fallout.sol";
 
 contract FalloutFactory is Factory {
