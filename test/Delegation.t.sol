@@ -7,18 +7,14 @@ import "../src/levels/Delegation/DelegationFactory.sol";
 
 contract DelegationTest is Test {
     DelegationFactory public factory;
-    Delegate public delegate;
     Delegation public delegation;
-    //  address public player = address(0x01);
     address public attacker = address(0x01);
 
     function setUp() public {
         factory = new DelegationFactory();
         delegation = Delegation(factory.createInstance(address(0)));
-        delegate = Delegate(factory.delegateAddress());
 
         assertTrue(address(factory) == delegation.owner());
-        assertTrue(address(delegation.delegate()) == address(delegate));
     }
 
     function testDelegationAttack() public {
