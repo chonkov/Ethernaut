@@ -18,7 +18,7 @@ contract TokenTest is Test {
         assertTrue(Token(instance).balanceOf(attacker) == AMOUNT);
     }
 
-    function testTelephoneAttack() public {
+    function testTokenAttack() public {
         vm.startPrank(attacker);
         Token(instance).transfer(address(0x00), AMOUNT + 1);
         vm.stopPrank();
