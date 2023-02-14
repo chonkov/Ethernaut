@@ -3,22 +3,23 @@
 pragma solidity ^0.6.0;
 
 import "../base/Factory.sol";
-import "./King.sol";
+import "./Reentrance.sol";
 
-contract KingFactory is Factory {
+contract ReentranceFactory is Factory {
     uint256 public constant INITIAL_VALUE = 1 ether;
 
     function createInstance(address _player) public payable override returns (address) {
         _player;
-        require(msg.value >= INITIAL_VALUE, "Send less than the minimum amount");
-        return address((new King{value: msg.value}()));
+        require(msg.value >= INITIAL_VALUE);
+        Reentrance instance = new Reentrance();
+        address(instance).transfer(msg.value);
+        return address(instance);
     }
 
     function validateInstance(address payable _instance, address _player) public override returns (bool) {
         _player;
-        King instance = King(_instance);
-        (bool result,) = address(instance).call{value: 3 ether}("");
-        return instance._king() != address(this);
+        Reentrance instance = Reentrance(_instance);
+        return address(instance).balance == 0;
     }
 
     receive() external payable {}
