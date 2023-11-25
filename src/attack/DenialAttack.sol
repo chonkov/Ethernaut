@@ -19,7 +19,12 @@ contract DenialAttack {
                 let x := sload(i)
             }
         }
+
         // assert(false); // this works, as well
+
+        // assembly {
+        //     invalid() // this works, as well
+        // }
 
         // assembly {
         //     let v := mload(100000) // this does not work. Total gas consumed =  100_000 * 3 + ((100_000 ** 2) / 512)
