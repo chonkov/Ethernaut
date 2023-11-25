@@ -29,8 +29,8 @@ contract CoinFlipTest is Test {
         for (uint256 i; i < 10; i++) {
             // After we flip, we need to wait for the next block, otherwise in 'CoinFlip' contract on
             // line 20 the if statement will be executed and on the very next line the tx will revert
-            attack.flip();
             vm.roll(block.number + 1);
+            attack.flip();
         }
 
         assertTrue(factory.validateInstance((payable(address(instance))), player));

